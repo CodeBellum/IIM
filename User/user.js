@@ -1,12 +1,22 @@
 const net = require('net');
-var user_name='';
-var messagee = '';
-function createNewClient(socket){
-     socket.on('data',(data)=>{
-         messagee+= data.toString();
+function Client(socket,id){
+    this.id=id;
+    this.socket = socket;
+    this.message ="";
+    this.socket.on('data',(data)=>{
+         this.message+= data.toString();
+       console.log(this.parse(this.message));
+        if (this.message.length>5)
+        {
+            console.log(this.message);
+            this.message="";
+        }
 });
-    if (messagee.length>5)
-        console.log(messagee.length);
-    return socket;
+
+    this.parse = function (data) {
+        if (data.indexOf('123')!=0)
+        return 'yeah';
+
+    }
 }
-exports.createNewClient = createNewClient;
+exports.Client = Client;
