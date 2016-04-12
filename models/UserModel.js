@@ -1,28 +1,27 @@
 const net = require('net');
 var mysql = require('mysql');
-function Client(socket,id){
-    this.model = require('../models/UserModel.js');
+function User(socket,id){
     this.id=id;
     this.socket = socket;
     this.message ="";
     this.socket.on('data',(data)=>{
-         this.message+= data.toString();
-      // console.log(this.parse(this.message));
+        this.message+= data.toString();
+        // console.log(this.parse(this.message));
         if (this.message.indexOf('}')>0)
         {
             //console.log(this.message);
 
 
-           // console.log(this.protocol(this.message)[0]);
+            // console.log(this.protocol(this.message)[0]);
             var parsed = this.protocol(this.message);
             if (parsed.type==='sql')
-            this.activeConnection(parsed.method,parsed.params,this.socket);
-           //socket.write(this.activeConnection('select','id=1'));
+                this.activeConnection(parsed.method,parsed.params,this.socket);
+            //socket.write(this.activeConnection('select','id=1'));
             this.message='';
         }
     });
     this.parser = function (data) {
-       var protocol=JSON.parse(data);
+        var protocol=JSON.parse(data);
         console.log(protocol['method']);
         return protocol['method'];
     };
@@ -36,7 +35,7 @@ function Client(socket,id){
         connection.connect();
         connection.query(method + '* from user WHERE '+ params,function(err, rows, fields) {
             if (err) console.log(err.stack);
-          socket.write(JSON.stringify(rows[0]));
+            socket.write(JSON.stringify(rows[0]));
         });
         connection.end();
         //return resultMessage['id'];
@@ -57,10 +56,7 @@ function Client(socket,id){
         };
         //console.log(fields['method']);
         //if (fields.indexOf('method')!=0)
-         //   console.log(fields['method']);
+        //   console.log(fields['method']);
     }
-
-
-
 }
-exports.Client = Client;
+exports.IndexAction = User;
