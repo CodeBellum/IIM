@@ -26,21 +26,7 @@ function Client(socket,id){
         console.log(protocol['method']);
         return protocol['method'];
     };
-    this.activeConnection = function(method,params,socket){
-        var connection = mysql.createConnection({
-            host     : 'localhost',
-            user     : 'root',
-            password : 'Cjcbgbcmre1',
-            database : 'iim'
-        });
-        connection.connect();
-        connection.query(method + '* from user WHERE '+ params,function(err, rows, fields) {
-            if (err) console.log(err.stack);
-          socket.write(JSON.stringify(rows[0]));
-        });
-        connection.end();
-        //return resultMessage['id'];
-    };
+
     this.protocol = (socketMessage)=>{
         var fields=JSON.parse(socketMessage);
         var method=fields['method'];

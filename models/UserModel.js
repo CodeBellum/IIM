@@ -1,5 +1,6 @@
 const net = require('net');
 var mysql = require('mysql');
+var protocol = require('../utils/Protocol.js');
 function User(socket,id){
     this.id=id;
     this.socket = socket;
@@ -40,23 +41,6 @@ function User(socket,id){
         connection.end();
         //return resultMessage['id'];
     };
-    this.protocol = (socketMessage)=>{
-        var fields=JSON.parse(socketMessage);
-        var method=fields['method'];
-        var model=fields['model'];
-        var action=fields['action'];
-        var params=fields['params'];
-        var type = fields['type'];
-        return {
-            method:method,
-            params:params,
-            action:action,
-            model:model,
-            type:type
-        };
-        //console.log(fields['method']);
-        //if (fields.indexOf('method')!=0)
-        //   console.log(fields['method']);
-    }
+
 }
 exports.IndexAction = User;
