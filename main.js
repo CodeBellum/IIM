@@ -11,7 +11,7 @@ const server = net.createServer((c) => {
 c.on('end', () => { console.log('client disconnected');});
 c.on('error',(err)=>console.log(err.toString()));
         var client = new user.Client(c,this.id);
-c.write('hello!');
+//c.write('hello!');
 });
 server.on('error',()=>{console.log(err);});
 server.listen(11000,()=>{console.log('server bound');});

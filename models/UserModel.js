@@ -1,46 +1,57 @@
 const net = require('net');
-var mysql = require('mysql');
+var dbConnection = require('../utils/DbConnection.js');
 var protocol = require('../utils/Protocol.js');
-function User(socket,id){
-    this.id=id;
+function User(socket){
+    this.id=0;
+    this.password ="";
+    this.login="";
+    this.name="";
+    this.info="";
+    this.rights=0;
     this.socket = socket;
     this.message ="";
-    this.socket.on('data',(data)=>{
-        this.message+= data.toString();
-        // console.log(this.parse(this.message));
-        if (this.message.indexOf('}')>0)
-        {
-            //console.log(this.message);
-
-
-            // console.log(this.protocol(this.message)[0]);
-            var parsed = this.protocol(this.message);
-            if (parsed.type==='sql')
-                this.activeConnection(parsed.method,parsed.params,this.socket);
-            //socket.write(this.activeConnection('select','id=1'));
-            this.message='';
+   // this.socket.on('data',(data)=>{
+   //     this.message+= data.toString();
+//   //     if (this.message.indexOf('<end>')>0)
+   //     {
+   //         var parsed = protocol.Protocol(this.message.substr(0,this.message.indexOf('<end>')-1));
+   //         if (parsed.type==='sql')
+   //             dbConnection.dbConnect(parsed,this.socket);
+   //         this.message='';
+   //     }
+   // });
+    this.Index = function(login,password)
+    {
+        var request = new protocol.ProtocolBuild().build();
+        this.login = login;
+        this.password = password;
+        request.params['method']='SELECT';
+        request.params['sql_params'] = 'login='+login+', password='+password;
+        request.params['table'] = 'user';
+        request.type='sql';
+        var errors =[];
+        console.log('request');
+        console.log(request);
+        var response = dbConnection.dbConnect(request,errors).resp;
+        if (errors.length==0) {
+            console.log(response);
+            this.id = response.data[0]['id'];
+            this.login = response.data[0]['login'];
+            this.password = response.data[0]['password'];
+            this.name = response.data[0]['name'];
+            this.info = response.data[0]['info'];
+            this.rights = response.data[0]['rights'];
+            response.params['status']=200;
+            console.log(response);
+            socket.write(response.build());
         }
-    });
-    this.parser = function (data) {
-        var protocol=JSON.parse(data);
-        console.log(protocol['method']);
-        return protocol['method'];
-    };
-    this.activeConnection = function(method,params,socket){
-        var connection = mysql.createConnection({
-            host     : 'localhost',
-            user     : 'root',
-            password : 'Cjcbgbcmre1',
-            database : 'iim'
-        });
-        connection.connect();
-        connection.query(method + '* from user WHERE '+ params,function(err, rows, fields) {
-            if (err) console.log(err.stack);
-            socket.write(JSON.stringify(rows[0]));
-        });
-        connection.end();
-        //return resultMessage['id'];
-    };
+        else {
+            response.data=errors;
+            response.params['status']=400;
+            console.log(response);
+            socket.write(response.build());
+        }
 
+    }
 }
-exports.IndexAction = User;
+exports.User = User;
