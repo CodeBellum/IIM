@@ -26,13 +26,13 @@ function User(socket){
         this.login = login;
         this.password = password;
         request.params['method']='SELECT';
-        request.params['sql_params'] = 'login='+login+', password='+password;
+        request.params['sql_params'] = '\'login\'= \''+login+'\' AND \'password\' = \''+password+'\'';
         request.params['table'] = 'user';
         request.type='sql';
         var errors =[];
         console.log('request');
         console.log(request);
-        var response = dbConnection.dbConnect(request,errors).resp;
+        var response = dbConnection(request,errors);
         if (errors.length==0) {
             console.log(response);
             this.id = response.data[0]['id'];
