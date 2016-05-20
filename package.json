@@ -1,8 +1,29 @@
 {
-  "name": "application-name",
+  "name": "iim-server",
   "version": "0.0.1",
   "dependencies": {
+    "express": "^4.13.4",
     "jade": "latest",
     "mysql": "latest"
-  }
+  },
+  "description": "IIM-server",
+  "main": "main.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TryHardCode/IIM.git"
+  },
+  "keywords": [
+    "server",
+    "IM"
+  ],
+  "author": "Ivan Zavyalov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TryHardCode/IIM/issues"
+  },
+  "homepage": "https://github.com/TryHardCode/IIM#readme"
 }

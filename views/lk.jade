@@ -1,0 +1,37 @@
+doctype html
+title Lk
+head
+    h1 This is LK
+    style
+        include index.css
+body
+    h2 Lk page
+    #ttable
+        form(method='PUT')
+            p Информация о пользователе
+            table
+                tr
+                    th
+                        label Login:
+                    th
+                        input(type='text', name='login', value=fields.login)
+                tr
+                    th
+                        label Password:
+                    th
+                        input(type='password', name='password', value=fields.password)
+                tr
+                    th
+                        label Name:
+                    th
+                        input(type='text',value=fields.name, name='name')
+                tr
+                    th
+                        label Info:
+                    th
+                        input(type='text',value=fields.info, name='info')
+                tr
+                    th
+
+                    th
+                        input(type='submit',value='Обновить',formmethod='PUT')

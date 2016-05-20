@@ -2,7 +2,7 @@ const net = require('net');
 var dbConnection = require('../DbConnection.js');
 var protocol = require('../utils/Protocol.js');
 var knex = require('knex');
-function Message(socket){
+function Receiver(socket){
     this.id=0;
     this.name="";
     this.socket = socket;
@@ -11,11 +11,11 @@ function Message(socket){
         var request = new protocol.ProtocolBuild().build();
         request.params['method']='SELECT';
         request.params['sql_params'] = sqlparams;
-        request.params['table'] = 'messages';
+        request.params['table'] = 'recievers';
         request.type='sql';
         var errors =[];
-      //  console.log('request');
-       // console.log(request);
+        console.log('request');
+        console.log(request);
         dbConnection(request,errors,function(rows){
             var response = new protocol.ProtocolBuild().build();
             response.data=rows;
@@ -27,19 +27,19 @@ function Message(socket){
             {
                 response.params=[{status:400}];
             }
-          //  console.log(response);
+            console.log(response);
             socket.write(JSON.stringify(response)+'<end>');
         });
     };
-    this.Index = function(sender,reciever){
+    this.Index = function(sqlparams){
         var request = new protocol.ProtocolBuild().build();
         request.params['method']='SELECT';
-        request.params['sql_params'] = {sender_id:sender,receiver_id:reciever};
-        request.params['table'] = 'messages';
+        request.params['sql_params'] = sqlparams;
+        request.params['table'] = 'recievers';
         request.type='sql';
         var errors =[];
-       // console.log('request');
-      //  console.log(request);
+        console.log('request');
+        console.log(request);
         dbConnection(request,errors,function(rows){
             var response = new protocol.ProtocolBuild().build();
             response.data=rows;
@@ -51,7 +51,7 @@ function Message(socket){
             {
                 response.params=[{status:400}];
             }
-           // console.log(response);
+            console.log(response);
             socket.write(JSON.stringify(response)+'<end>');
         });
     };
@@ -82,4 +82,4 @@ function Message(socket){
         });
     };
 }
-exports.Message = Message;
+exports.Receiver = Receiver;

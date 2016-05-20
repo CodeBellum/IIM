@@ -1,20 +1,29 @@
-html
-    title Ivaaaan
-    head
-        h1 Show me the money
-        style
-            include index.css
-    body
-        h2 Gleb loshara
-        #test
-            label User:
-            input(type='checkbox',
-            name='agreement',
-            checked,
-            value='Вы соглашаетесь')
-            #ttable
-                table
-                    tr
-                        td "123"
-                    tr
-                        td "234"
+doctype html
+title Ivaaaan
+head
+    h1 Show me the money
+    style
+        include index.css
+body
+    h2 Index page
+    #test
+        label User:
+        #ttable
+           form(method='POST')
+               p Введите имя пользователя и пароль:
+               table
+                   tr
+                     th
+                       label Login:
+                     th
+                       input(type='text', name='login')
+                   tr
+                       th
+                        label Password:
+                       th
+                        input(type='password', name='password')
+                   tr
+                      th
+                       input(type='submit',value='Регистрация', name='register')
+                      th
+                          input(type='submit',value='Вход', name='enter')

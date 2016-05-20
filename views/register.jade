@@ -1,0 +1,36 @@
+doctype html
+title Регистрация
+head
+    h1 Регистрация нового пользователя
+    style
+        include index.css
+body
+    h2 Регистрация
+    #test
+        form(method='POST')
+            p Заполните поля:
+            table
+                tr
+                    th
+                        label Ник:
+                    th
+                        input(type='text', name='name',required=true)
+                tr
+                    th
+                        label Информация:
+                    th
+                        input(type='text', name='info')
+                tr
+                    th
+                        label Логин:
+                    th
+                        input(type='text', name='login',required=true)
+                tr
+                    th
+                        label Пароль:
+                    th
+                        input(type='password', name='password',required=true)
+                tr
+                    th
+                    th
+                        input(type='submit',value='Зарегистрироваться')
